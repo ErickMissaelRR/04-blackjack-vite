@@ -1,5 +1,5 @@
-import { requestCard, valueCard } from "./index.js";
-import { divNpcCards, htmlPoints } from './helpers.js';
+import { requestCard, determinateWinner, createCard } from "./index.js";
+import { accumulatePoints, cleanPoints } from "./accumulate-points.js";
 
 /**
  * This function simulate the turn of npc.
@@ -7,20 +7,25 @@ import { divNpcCards, htmlPoints } from './helpers.js';
  * @param {Array<String>} deck - Deck of cards
  */
 
-export const npcTurn = ( minimumPoints, deck ) => {
+export const npcTurn = ( minimumPoints, deck, playerPoints ) => {
+
+    if( !minimumPoints ) {
+        throw new Error('Minimum points are required.');
+    }
+
+    if( !deck ) {
+        throw new Error('Deck is required.');
+    }
 
     let npcPoints = 0;
 
     do {
         const card = requestCard(deck);
 
-        npcPoints = npcPoints + valueCard( card );
-        htmlPoints[1].innerText = npcPoints;
+        npcPoints = accumulatePoints( card, playerPoints.length - 1 );
+        playerPoints[ playerPoints.length - 1 ] = npcPoints;
         
-        const imgCard = document.createElement('img');
-        imgCard.src = `assets/cartas/${ card }.png`; //3H, JD
-        imgCard.classList.add('carta');
-        divNpcCards.append( imgCard );
+        createCard( card, playerPoints.length - 1 );
 
         if( minimumPoints > 21 ) {
             break;
@@ -28,15 +33,6 @@ export const npcTurn = ( minimumPoints, deck ) => {
 
     } while(  (npcPoints < minimumPoints)  && (minimumPoints <= 21 ) );
 
-    setTimeout(() => {
-        if( npcPoints === minimumPoints ) {
-            alert('Nadie gana :(');
-        } else if ( minimumPoints > 21 ) {
-            alert('Computadora gana')
-        } else if( npcPoints > 21 ) {
-            alert('Jugador Gana');
-        } else {
-            alert('Computadora Gana')
-        }
-    }, 100 );
+    determinateWinner( playerPoints );
+    cleanPoints();
 }
