@@ -13,7 +13,7 @@ export const createCard = ( card, turn ) => {
         throw new Error('Card is required.');
     }
 
-    if( !turn ) {
+    if( turn === undefined ) {
         throw new Error('Turn is required.');
     }
 
