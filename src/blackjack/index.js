@@ -1,37 +1,51 @@
-import { createDeck, requestCard, valueCard, npcTurn } from './use-cases/index.js';
-import { btnRequest, btnNew, btnStop, divNpcCards, divPlayerCards, htmlPoints } from './use-cases/helpers.js';
+import { createDeck, requestCard, npcTurn, accumulatePoints, createCard } from './use-cases/index.js';
+import { btnRequest, btnNew, btnStop, htmlPoints, divPlayersCards } from './use-cases/helpers.js';
 
 const types      = ['C','D','H','S'];
 const specials   = ['A','J','Q','K'];
-let puntosJugador = 0;
+let playersPoints = [];
+let deck = [];
 
-let deck = createDeck(types, specials);
+const initGame = ( playersNumber = 2) => {
+
+    deck = createDeck(types, specials);
+    playersPoints = [];
+
+    for( let i = 0; i< playersNumber; i++ ) {
+        playersPoints.push(0);
+    }
+
+    htmlPoints.forEach( elem => elem.innerText = 0 );
+    divPlayersCards.forEach( elem => elem.innerHTML = '' );
+
+    btnRequest.disabled   = false;
+    btnStop.disabled = false;
+}
+
+initGame();
+
 
 // Eventos
 btnRequest.addEventListener('click', () => {
 
-    const carta = requestCard(deck);
+    const card = requestCard(deck);
     
-    puntosJugador = puntosJugador + valueCard( carta );
-    htmlPoints[0].innerText = puntosJugador;
-    
-    // <img class="carta" src="assets/cartas/2C.png">
-    const imgCarta = document.createElement('img');
-    imgCarta.src = `assets/cartas/${ carta }.png`; //3H, JD
-    imgCarta.classList.add('carta');
-    divPlayerCards.append( imgCarta );
+    const playerPoints = accumulatePoints( card, 0 );
+    playersPoints[0] = playerPoints;
+        
+    createCard( card, 0 );
 
-    if ( puntosJugador > 21 ) {
+    if ( playerPoints > 21 ) {
         console.warn('Lo siento mucho, perdiste');
         btnRequest.disabled   = true;
         btnStop.disabled = true;
-        npcTurn( puntosJugador, deck );
+        npcTurn( playerPoints, deck, playersPoints );
 
-    } else if ( puntosJugador === 21 ) {
+    } else if ( playerPoints === 21 ) {
         console.warn('21, genial!');
         btnRequest.disabled   = true;
         btnStop.disabled = true;
-        npcTurn( puntosJugador, deck );
+        npcTurn( playerPoints, deck, playersPoints );
     }
 
 });
@@ -41,25 +55,10 @@ btnStop.addEventListener('click', () => {
     btnRequest.disabled   = true;
     btnStop.disabled = true;
 
-    npcTurn( puntosJugador, deck );
+    npcTurn( playersPoints[0], deck, playersPoints );
 });
 
 btnNew.addEventListener('click', () => {
-
-    console.clear();
-    deck = [];
-    deck = createDeck( types, specials );
-
-    puntosJugador     = 0;
-    
-    htmlPoints[0].innerText = 0;
-    htmlPoints[1].innerText = 0;
-
-    divNpcCards.innerHTML = '';
-    divPlayerCards.innerHTML = '';
-
-    btnRequest.disabled   = false;
-    btnStop.disabled = false;
-
+    initGame();
 });
 
