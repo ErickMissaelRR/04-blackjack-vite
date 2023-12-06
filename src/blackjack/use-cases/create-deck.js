@@ -13,16 +13,16 @@ import _ from "underscore";
 // export const createDeck = () => {
 //#endregion
 
+const types      = ['C','D','H','S'];
+const specials   = ['A','J','Q','K'];
 let deck = [];
 
 /**
  * This is a use case, it is a function that create a deck and returns the of cards
- * @param {Array<String>} types - Example: ['C','D','H','S']
- * @param {Array<String>} specials - Example: ['A','J','Q','K']
  * @returns {Array<String>} Return a new deck
  */
 
-export const createDeck = (types, specials) => {
+export const createDeck = () => {
   if (!types || types.length === 0) {
     throw new Error("You must pass an array of card types");
   }

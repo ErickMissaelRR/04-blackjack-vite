@@ -1,14 +1,12 @@
 import { createDeck, requestCard, npcTurn, accumulatePoints, createCard } from './use-cases/index.js';
 import { btnRequest, btnNew, btnStop, htmlPoints, divPlayersCards } from './use-cases/helpers.js';
 
-const types      = ['C','D','H','S'];
-const specials   = ['A','J','Q','K'];
 let playersPoints = [];
 let deck = [];
 
 const initGame = ( playersNumber = 2) => {
 
-    deck = createDeck(types, specials);
+    deck = createDeck();
     playersPoints = [];
 
     for( let i = 0; i< playersNumber; i++ ) {
