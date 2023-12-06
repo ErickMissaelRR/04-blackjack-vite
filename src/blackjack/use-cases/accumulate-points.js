@@ -12,8 +12,6 @@ let playerPoints = [0, 0];
 
 export const accumulatePoints = ( card, turn ) => {
 
-    console.log(turn);
-
     if( !card ) {
         throw new Error('Card is required.');
     }
