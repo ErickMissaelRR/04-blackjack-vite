@@ -19,6 +19,6 @@ export const createCard = ( card, turn ) => {
 
     const imgcard = document.createElement('img');
     imgcard.src = `assets/cartas/${ card }.png`; 
-    imgcard.classList.add('carta');
+    imgcard.classList.add('cardDeck');
     divPlayersCards[turn].append( imgcard );
 }

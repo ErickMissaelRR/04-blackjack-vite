@@ -6,7 +6,7 @@ html, body {
 }
 
 
-.titulo {
+.title {
   text-align: center;
   background-color: black;
   color: white;
@@ -14,13 +14,13 @@ html, body {
   font-size: 25px;
 }
 
-.carta {
+.cardDeck {
   position: relative;
   width: 150px;
   left: 100px;
   margin-left: -75px;
 }
 
-#computadora-cartas, #jugador-cartas {
+.divCards {
   height: 240px;
 }
