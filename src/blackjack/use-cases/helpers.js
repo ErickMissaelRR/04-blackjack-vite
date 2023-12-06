@@ -1,7 +1,5 @@
-export const btnRequest   = document.querySelector('#btnPedir');
-export const btnStop = document.querySelector('#btnDetener');
-export const btnNew   = document.querySelector('#btnNuevo');
-export const divPlayerCards     = document.querySelector('#jugador-cartas');
-export const divNpcCards = document.querySelector('#computadora-cartas');
+export const btnRequest   = document.querySelector('#btnRequest');
+export const btnStop = document.querySelector('#btnStop');
+export const btnNew   = document.querySelector('#btnNew');
 export const htmlPoints = document.querySelectorAll('small');
-export const divPlayersCards = document.querySelectorAll('.divCartas')
+export const divPlayersCards = document.querySelectorAll('.divCards')
