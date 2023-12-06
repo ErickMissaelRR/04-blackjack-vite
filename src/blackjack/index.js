@@ -1,4 +1,6 @@
 import { createDeck } from './use-cases/create-deck';
+import { requestCard } from './use-cases/request-card';
+import { valueCard } from './use-cases/value-card';
 
 const types      = ['C','D','H','S'];
 const specials   = ['A','J','Q','K'];
@@ -15,37 +17,15 @@ const divCartasComputadora = document.querySelector('#computadora-cartas');
 
 const puntosHTML = document.querySelectorAll('small');
 
-
-
 let deck = createDeck(types, specials);
-
-
-
-// Esta función me permite tomar una carta
-const pedirCarta = () => {
-
-    if ( deck.length === 0 ) {
-        throw new Error('No hay cartas en el deck');
-    }
-    const carta = deck.pop();
-    return carta;
-}
-
-const valorCarta = ( carta ) => {
-
-    const valor = carta.substring(0, carta.length - 1);
-    return ( isNaN( valor ) ) ? 
-            ( valor === 'A' ) ? 11 : 10
-            : valor * 1;
-}
 
 // turno de la computadora
 const turnoComputadora = ( puntosMinimos ) => {
 
     do {
-        const carta = pedirCarta();
+        const carta = requestCard(deck);
 
-        puntosComputadora = puntosComputadora + valorCarta( carta );
+        puntosComputadora = puntosComputadora + valueCard( carta );
         puntosHTML[1].innerText = puntosComputadora;
         
         // <img class="carta" src="assets/cartas/2C.png">
@@ -78,9 +58,9 @@ const turnoComputadora = ( puntosMinimos ) => {
 // Eventos
 btnPedir.addEventListener('click', () => {
 
-    const carta = pedirCarta();
+    const carta = requestCard(deck);
     
-    puntosJugador = puntosJugador + valorCarta( carta );
+    puntosJugador = puntosJugador + valueCard( carta );
     puntosHTML[0].innerText = puntosJugador;
     
     // <img class="carta" src="assets/cartas/2C.png">
